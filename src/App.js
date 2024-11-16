@@ -104,7 +104,11 @@ function App() {
 
     if (id === nextNumber) {
       setNextNumber(prev => prev + 1);
-      setCircles(prev => prev.filter(circle => circle.id !== id));
+      setCircles(prevCircles =>
+        prevCircles.map(circle =>
+          circle.id === id ? { ...circle, isHidden: true } : circle
+        )
+      );
       
       if (id === points) {
         handleGameWin();

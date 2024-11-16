@@ -1,30 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Circle.css';
 
-function Circle({ id, x, y, onClick, totalCircles, nextNumber, autoPlay }) {
-  const [isClicked, setIsClicked] = useState(false);
-  const [IsAnimating, setIsAnimating] = useState(false);
-
-  const handleClick = () => {
-    if (id === nextNumber) {
-      setIsClicked(true);
-      setIsAnimating(true);
-      
-      setTimeout(() => {
-        onClick();
-        setIsAnimating(false);
-      }, 500);
-    } else {
-      onClick();
-    }
-  };
-
+function Circle({ id, x, y, onClick, totalCircles, nextNumber, isHidden }) {
   const circleClasses = [
     'circle',
-    isClicked ? 'fade-out' : '',
-    id === nextNumber ? 'next-number' : '',
-    autoPlay ? 'no-click' : '',
-  ].filter(Boolean).join(' ');
+    isHidden ? 'circle--hidden' : '',
+  ].join(' ');
 
   return (
     <div
@@ -35,7 +16,7 @@ function Circle({ id, x, y, onClick, totalCircles, nextNumber, autoPlay }) {
         top: `${y}%`,
         zIndex: id === nextNumber ? totalCircles + 1 : totalCircles - id,
       }}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {id}
     </div>

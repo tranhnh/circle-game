@@ -36,16 +36,14 @@
     transform: translate(-50%, -50%) scale(1.1);
     box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
 }
-
-.circle.fade-out {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8); 
-}
   
-.circle.hidden {
+.circle.circle--hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
     pointer-events: none;
-    display: none; 
-}
+  }
+  
+
 
 @keyframes shake {
     0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
