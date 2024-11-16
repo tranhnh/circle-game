@@ -3,7 +3,7 @@ import './Circle.css';
 
 function Circle({ id, x, y, onClick, totalCircles, nextNumber, autoPlay }) {
   const [isClicked, setIsClicked] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [IsAnimating, setIsAnimating] = useState(false);
 
   const handleClick = () => {
     if (id === nextNumber) {
