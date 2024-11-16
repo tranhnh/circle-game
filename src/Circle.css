@@ -39,11 +39,12 @@
 
 .circle.fade-out {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(0.8); 
 }
-
-.circle.no-click {
+  
+.circle.hidden {
     pointer-events: none;
+    display: none; 
 }
 
 @keyframes shake {
