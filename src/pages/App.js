@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Circle from './Circle';
-import './Circle.css';
+import Circle from '../components/Circle/Circle';
+import '../components/Circle/Circle.css';
 
 function App() {
   const [points, setPoints] = useState(0);
@@ -84,8 +84,8 @@ function App() {
     const newHistory = [
       ...history, 
       { playerName, points, time }
-    ].sort((a, b) => a.time - b.time) // Sắp xếp theo thời gian nhanh nhất
-    .slice(0, 5); // Giới hạn chỉ lưu 5 game nhanh nhất
+    ].sort((a, b) => a.time - b.time)
+    .slice(0, 5);
     setHistory(newHistory);
     
     if (bestTime === null || time < bestTime) {
@@ -212,7 +212,7 @@ function App() {
             <h3>Leaderboard:</h3>
             {history.map((game, index) => (
               <div key={index} className="history-item">
-                {game.playerName} - Points: {game.points} - Time: {formatTime(game.time)}
+                #{index + 1} {game.playerName} - Points: {game.points} - Time: {formatTime(game.time)}
               </div>
             ))}
           </div>
