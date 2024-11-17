@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Circle from '../components/Circle/Circle';
+import Footer from '../components/Footer/Footer';
 import '../components/Circle/Circle.css';
 import './App.css';
+
 
 function App() {
   const [points, setPoints] = useState(0);
@@ -279,6 +281,7 @@ function App() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
