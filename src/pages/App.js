@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Circle from '../components/Circle/Circle';
 import '../components/Circle/Circle.css';
+import './App.css';
 
 function App() {
   const [points, setPoints] = useState(0);
@@ -135,50 +136,66 @@ function App() {
 
   return (
     <div className="container">
+    
       <div className="header">
         <h1>Number Click Game</h1>
         <p>Click the numbers in order as fast as you can!</p>
       </div>
 
       <div className="controls">
-        <input
-          type="text"
-          placeholder="Enter your name"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          disabled={gameStarted}
-        />
-        <input
-          type="number"
-          min="0"
-          value={points || ''}
-          onChange={handleInputChange}
-          disabled={gameStarted}
-          placeholder="Enter points"
-        />
-        <button
-          onClick={handleStartGame}
-          disabled={points <= 0 || !playerName || gameStarted}
-          className={gameStarted ? 'disabled' : 'start'}
-        >
-          {gameStarted ? 'Game in Progress' : 'Start Game'}
-        </button>
-        <button onClick={resetGame} className="reset">
-          Reset Game
-        </button>
-        <button
-          onClick={() => setAutoPlay(!autoPlay)}
-          disabled={!gameStarted}
-          className={`auto-play ${autoPlay ? 'active' : ''}`}
-        >
-          {autoPlay ? 'Stop Auto Play' : 'Start Auto Play'}
-        </button>
+        <div className="controls-row">
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              disabled={gameStarted}
+            />
+            
+            <input
+              type="number"
+              min="0"
+              value={points || ''}
+              onChange={handleInputChange}
+              disabled={gameStarted}
+              placeholder="Enter points"
+            />
+        </div>
+        
+        <div className='container-button'>
+          <button
+            onClick={handleStartGame}
+            disabled={points <= 0 || !playerName || gameStarted}
+            className={`start ${points <= 0 || !playerName || gameStarted ? 'disabled' : ''}`}
+          >
+            {gameStarted ? 'Game in Progress' : 'Start Game'}
+          </button>
+
+          <button onClick={resetGame} className="reset">
+            Reset Game
+          </button>
+
+          {gameStarted && (
+            <button
+              onClick={() => setAutoPlay(!autoPlay)}
+              disabled={!gameStarted}
+              className={`auto-play ${autoPlay ? 'active' : ''}`}
+            >
+              {autoPlay ? 'Stop Auto Play' : 'Start Auto Play'}
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="game-info">
-        <div className="timer">Time: {formatTime(time)}</div>
+        <div className="timer">
+          Time: {formatTime(time)}
+        </div>
+
         {gameStarted && (
-          <div className="next-number">Find Number: {nextNumber}</div>
+          <div className="next-number">
+            Find Number: {nextNumber}
+          </div>
         )}
       </div>
 
@@ -207,6 +224,7 @@ function App() {
         >
           {showHistory ? 'Hide History' : 'Show History'}
         </button>
+        
         {showHistory && history.length > 0 && (
           <div className="history-list">
             <h3>Leaderboard:</h3>
@@ -261,134 +279,6 @@ function App() {
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .container {
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 20px;
-          font-family: Arial, sans-serif;
-        }
-
-        .header {
-          background-color: #2c3e50;
-          padding: 20px;
-          border-radius: 10px;
-          color: white;
-          text-align: center;
-          margin-bottom: 30px;
-        }
-
-        .controls {
-          display: flex;
-          gap: 10px;
-          justify-content: center;
-          flex-wrap: wrap;
-          margin-bottom: 20px;
-        }
-
-        button {
-          padding: 8px 16px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
-          transition: all 0.3s;
-        }
-
-        .start { background-color: #2ecc71; color: white; }
-        .reset { background-color: #e74c3c; color: white; }
-        .auto-play { background-color: #3498db; color: white; }
-        .auto-play.active { background-color: #f39c12; }
-        .disabled { background-color: #95a5a6; cursor: not-allowed; }
-
-        input {
-          padding: 8px;
-          font-size: 16px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          width: 200px;
-        }
-
-        .game-info {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          margin-bottom: 20px;
-          font-size: 18px;
-        }
-
-        .lives {
-          text-align: center;
-          margin-bottom: 20px;
-          font-size: 20px;
-          font-weight:
-        }
-
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0,0,0,0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .modal-content {
-          background-color: white;
-          padding: 30px;
-          border-radius: 8px;
-          text-align: center;
-          min-width: 300px;
-        }
-
-        .modal-emoji {
-          font-size: 40px;
-          margin-bottom: 20px;
-        }
-
-        .modal-buttons {
-          display: flex;
-          gap: 10px;
-          justify-content: center;
-          margin-top: 20px;
-        }
-
-        .play-again { background-color: #2ecc71; color: white; }
-        .close { background-color: #95a5a6; color: white; }
-
-        .stats {
-          padding: 20px;
-          border-radius: 8px;
-          margin-top: 20px;
-        }
-
-        .history-button {
-          background-color: #34495e;
-          color: white;
-          width: 100%;
-          margin: 10px 0;
-        }
-
-        .history-list {
-          margin-top: 10px;
-        }
-
-        .history-item {
-          background-color: white;
-          padding: 10px;
-          margin: 5px 0;
-          border-radius: 4px;
-        }
-
-        .new-record {
-          color: #e74c3c;
-          font-weight: bold;
-        }
-      `}</style>
     </div>
   );
 }

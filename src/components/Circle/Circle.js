@@ -5,10 +5,10 @@ function Circle({ id, x, y, onClick, totalCircles, nextNumber, isHidden }) {
   const circleClasses = [
     'circle',
     isHidden ? 'circle--hidden' : '',
-    id === nextNumber ? 'next-number' : '', // Thêm class `next-number`
+    id === nextNumber ? 'next-number' : '',
   ]
-    .filter(Boolean) // Loại bỏ các class trống
-    .join(' '); // Nối các class lại thành chuỗi
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
