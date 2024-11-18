@@ -164,6 +164,7 @@ function App() {
     setCircles([]); 
     setAutoPlay(false);
     setShowModal(false); 
+    setIsPaused(false);
   };
 
   return (
