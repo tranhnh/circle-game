@@ -197,7 +197,9 @@ function App() {
         nextNumber={nextNumber}
       />
 
+      {gameStarted && (
       <Lives wrongClicks={wrongClicks} />
+      )}
 
       <CircleContainer
         gameStarted={gameStarted}
