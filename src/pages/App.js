@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Circle from '../components/Circle/Circle';
-import Footer from '../components/Footer/Footer';
+import Header from '../components/Header';
+import Controls from '../components/Controls';
+import GameInfo from '../components/GameInfo';
+import Lives from '../components/Lives';
+import CircleContainer from '../components/CircleContainer';
+import Modal from '../components/Modal';
+import Stats from '../components/Stats';
+
 import '../components/Circle/Circle.css';
 import './App.css';
 
@@ -19,18 +25,21 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({ type: '', message: '' });
   const [playerName, setPlayerName] = useState("");
+  const [isPaused, setIsPaused] = useState(false);
   
 
   useEffect(() => {
     let timer;
-    if (gameStarted) {
-      timer = setInterval(() => setTime(prev => prev + 1), 1000);
+    if (gameStarted && !isPaused) {
+      timer = setInterval(() => setTime((prev) => prev + 1), 1000);
     }
     return () => clearInterval(timer);
-  }, [gameStarted]);
+  }, [gameStarted, isPaused]);
 
   useEffect(() => {
     if (!autoPlay || !gameStarted) return;
+
+    if (isPaused) return;
 
     const nextCircle = circles.find(circle => circle.id === nextNumber);
     if (nextCircle) {
@@ -43,7 +52,7 @@ function App() {
 
       return () => clearTimeout(timeout);
     }
-  }, [autoPlay, nextNumber, circles, gameStarted]);
+  }, [autoPlay, nextNumber, circles, gameStarted, isPaused]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -51,19 +60,22 @@ function App() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleInputChange = (e) => {
-    const value = parseInt(e.target.value, 10) || 0;
-    setPoints(value);
-    resetGame();
-  };
+
 
   const resetGame = () => {
-    setGameStarted(false);
     setTime(0);
     setNextNumber(1);
-    setCircles([]);
     setWrongClicks(0);
-    setAutoPlay(false);
+
+    const newCircles = Array.from({ length: points }, (_, i) => ({
+    id: i + 1,
+    x: Math.random() * 80 + 10,
+    y: Math.random() * 80 + 10,
+    isHidden: false,
+  }));
+
+  setCircles(newCircles);
+  setGameStarted(true);
   };
 
   const handleStartGame = () => {
@@ -136,151 +148,66 @@ function App() {
     }
   };
 
+  const togglePause = () => {
+    setIsPaused((prev) => !prev);
+  };
+
   return (
     <div className="container">
     
-      <div className="header">
-        <h1>Number Click Game</h1>
-        <p>Click the numbers in order as fast as you can!</p>
-      </div>
+      <Header />
 
-      <div className="controls">
-        <div className="controls-row">
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={playerName}
-              onChange={(e) => setPlayerName(e.target.value)}
-              disabled={gameStarted}
-            />
-            
-            <input
-              type="number"
-              min="0"
-              value={points || ''}
-              onChange={handleInputChange}
-              disabled={gameStarted}
-              placeholder="Enter points"
-            />
-        </div>
-        
-        <div className='container-button'>
-          <button
-            onClick={handleStartGame}
-            disabled={points <= 0 || !playerName || gameStarted}
-            className={`start ${points <= 0 || !playerName || gameStarted ? 'disabled' : ''}`}
-          >
-            {gameStarted ? 'Game in Progress' : 'Start Game'}
-          </button>
+      <Controls
+        playerName={playerName}
+        setPlayerName={setPlayerName}
+        points={points}
+        setPoints={setPoints}
+        handleStartGame={handleStartGame}
+        resetGame={resetGame}
+        autoPlay={autoPlay}
+        setAutoPlay={setAutoPlay}
+        gameStarted={gameStarted}
+        togglePause={togglePause}
+        isPaused={isPaused} 
+      />
 
-          <button onClick={resetGame} className="reset">
-            Reset Game
-          </button>
+      <GameInfo
+        gameStarted={gameStarted}
+        time={time}
+        formatTime={formatTime}
+        nextNumber={nextNumber}
+      />
 
-          {gameStarted && (
-            <button
-              onClick={() => setAutoPlay(!autoPlay)}
-              disabled={!gameStarted}
-              className={`auto-play ${autoPlay ? 'active' : ''}`}
-            >
-              {autoPlay ? 'Stop Auto Play' : 'Start Auto Play'}
-            </button>
-          )}
-        </div>
-      </div>
+      <Lives wrongClicks={wrongClicks} />
 
-      <div className="game-info">
-        <div className="timer">
-          Time: {formatTime(time)}
-        </div>
+      <CircleContainer
+        gameStarted={gameStarted}
+        circles={circles}
+        handleCircleClick={handleCircleClick}
+        nextNumber={nextNumber}
+        points={points}
+      />
 
-        {gameStarted && (
-          <div className="next-number">
-            Find Number: {nextNumber}
-          </div>
-        )}
-      </div>
+      <Stats
+        showHistory={showHistory}
+        setShowHistory={setShowHistory}
+        history={history}
+        formatTime={formatTime}
+      />
 
-      <div className="lives">
-        Lives: {Array(3 - wrongClicks).fill('❤️').join('')}
-        {Array(wrongClicks).fill('🖤').join('')}
-      </div>
-
-      <div className="circle-container">
-        {gameStarted &&
-          circles.map((circle) => (
-            <Circle
-              key={circle.id}
-              {...circle}
-              onClick={() => handleCircleClick(circle.id)}
-              nextNumber={nextNumber}
-              totalCircles={points}
-            />
-          ))}
-      </div>
-
-      <div className="stats">
-        <button 
-          className="history-button"
-          onClick={() => setShowHistory(!showHistory)}
-        >
-          {showHistory ? 'Hide History' : 'Show History'}
-        </button>
-        
-        {showHistory && history.length > 0 && (
-          <div className="history-list">
-            <h3>Leaderboard:</h3>
-            {history.map((game, index) => (
-              <div key={index} className="history-item">
-                #{index + 1} {game.playerName} - Points: {game.points} - Time: {formatTime(game.time)}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-emoji">
-              {modalInfo.type === 'success' ? '🎉' : '😢'}
-            </div>
-            
-            <h2 className={modalInfo.type === 'success' ? 'success' : 'failure'}>
-              {modalInfo.type === 'success' ? 'Congratulations!' : 'Game Over!'}
-            </h2>
-            
-            <p>{modalInfo.message}</p>
-
-            {modalInfo.type === 'success' && bestTime !== null && (
-              <p className={time < bestTime ? 'new-record' : ''}>
-                {time < bestTime ? '🏆 New Best Time!' : `Best Time: ${formatTime(bestTime)}`}
-              </p>
-            )}
-
-            <div className="modal-buttons">
-              <button
-                className="play-again"
-                onClick={() => {
-                  setShowModal(false);
-                  handleStartGame();
-                }}
-              >
-                Play Again
-              </button>
-              <button
-                className="close"
-                onClick={() => {
-                  setShowModal(false);
-                  resetGame();
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal} 
+        setTime={setTime}
+        setNextNumber={setNextNumber}
+        setWrongClicks={setWrongClicks}
+        time={time}
+        bestTime={bestTime}
+        formatTime={formatTime}
+        modalInfo={modalInfo}
+        handleStartGame={handleStartGame}
+        resetGame={resetGame}
+      />
 
     </div>
   );

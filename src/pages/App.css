@@ -1,3 +1,11 @@
+input {
+padding: 8px;
+font-size: 16px;
+border: 1px solid #ddd;
+border-radius: 4px;
+width: 100%;
+}
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -36,6 +44,26 @@ font-size: 16px;
 transition: all 0.3s;
 }
 
+.pause {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+
+.pause.resume {
+  background-color: #2ecc71;
+}
+
+.pause.resume:hover {
+  background-color: #27ae60;
+}
+
 .start {
 background-color: #2ecc71;
 color: white;
@@ -58,13 +86,6 @@ background-color: #95a5a6;
 cursor: not-allowed;
 }
 
-input {
-padding: 8px;
-font-size: 16px;
-border: 1px solid #ddd;
-border-radius: 4px;
-width: 100%;
-}
 
 .game-info {
 display: flex;
@@ -152,14 +173,15 @@ font-weight: bold;
   
 .controls {
     display: flex;
-    flex-direction: column; /* Sắp xếp các hàng dọc */
-    gap: 20px; /* Khoảng cách giữa các hàng */
-    align-items: center; /* Căn giữa nội dung */
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
   
 .controls-row {
     display: flex;
-    gap: 20px; /* Khoảng cách giữa các phần tử trong cùng một hàng */
-    justify-content: center; /* Căn giữa nội dung trong hàng */
-    width: 100%; /* Để các phần tử căn chỉnh theo chiều rộng */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    width: 100%; 
 }

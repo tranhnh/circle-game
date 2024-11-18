@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Modal({ showModal, modalInfo, bestTime, time, setShowModal, handleStartGame, resetGame }) {
+function Modal({ setTime, setNextNumber, setWrongClicks, showModal, modalInfo, formatTime, bestTime, time, setShowModal, handleStartGame, resetGame }) {
   return showModal ? (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -34,7 +34,9 @@ function Modal({ showModal, modalInfo, bestTime, time, setShowModal, handleStart
             className="close"
             onClick={() => {
               setShowModal(false);
-              resetGame();
+              setTime(0);
+              setNextNumber(1);
+              setWrongClicks(0);
             }}
           >
             Close
