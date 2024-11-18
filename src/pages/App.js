@@ -47,7 +47,7 @@ function App() {
         if (circleElement) {
           circleElement.click();
         }
-      }, 800);
+      }, 1000);
 
       return () => clearTimeout(timeout);
     }
@@ -127,7 +127,7 @@ function App() {
       if (id === points) {
         setTimeout(() => {
           handleGameWin(); 
-        }, 800); 
+        }, 1000); 
       }
       
     } else {
@@ -135,7 +135,7 @@ function App() {
       const circles = document.querySelectorAll('.circle');
       circles.forEach(circle => {
         circle.style.animation = 'shake 0.1s';
-        setTimeout(() => circle.style.animation = '', 500);
+        setTimeout(() => circle.style.animation = '', 1000);
       });
 
       if (wrongClicks + 1 >= 3) {
