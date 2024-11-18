@@ -10,9 +10,15 @@ function GameInfo({ time, gameStarted, nextNumber }) {
 
   return (
     <div className="game-info">
-      <div className="timer">Time: {formatTime(time)}</div>
+      <div className="info-card">
+        <h3>Time</h3>
+        <span>{formatTime(time)}</span>
+      </div>
       {gameStarted && (
-        <div className="next-number">Find Number: {nextNumber}</div>
+        <div className="info-card">
+          <h3>Found</h3>
+          <span>{nextNumber-1}</span>
+        </div>
       )}
     </div>
   );

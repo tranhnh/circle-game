@@ -12,7 +12,7 @@ function Stats({ showHistory, setShowHistory, history, formatTime }) {
       
       {showHistory && history.length > 0 && (
         <div className="history-list">
-          <h3>Leaderboard:</h3>
+          <h3> 🏆 Leaderboard:</h3>
           {history.map((game, index) => (
             <div key={index} className="history-item">
               #{index + 1} {game.playerName} - Points: {game.points} - Time: {formatTime(game.time)}

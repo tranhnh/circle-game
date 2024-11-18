@@ -1,9 +1,17 @@
 input {
-  padding: 8px;
+  padding: 12px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s;
   width: 100%;
+  max-width: 300px;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
 }
 
 .container {
@@ -19,7 +27,7 @@ input {
 }  
   
 .header {
-  background-color: #2c3e50;
+  background:#2c3e50;
   padding: 20px;
   border-radius: 10px;
   color: white;
@@ -36,16 +44,18 @@ input {
 }
 
 button {
-  height: 30px;
-  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 15px;
   transition: background-color 0.3s, transform 0.2s;
+  min-width: 100px;
+  height: 40px; 
+  padding: 8px 16px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 
@@ -141,10 +151,54 @@ button:active {
   font-size: 18px;
 }
 
+.info-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.info-card span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2980b9;
+}
+
 .lives {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.lives-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.lives-bar {
+  position: relative;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 200px;
+  height: 20px;
+}
+
+.lives-bar-inner {
+  background-color: #e74c3c; /* Đỏ cho lives */
+  height: 100%;
+  transition: width 0.3s ease;
 }
 
 .modal-overlay {
@@ -202,14 +256,20 @@ button:active {
 }
 
 .history-list {
-  margin-top: 10px;
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .history-item {
-  background-color: white;
-  padding: 10px;
-  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-bottom: 8px;
   border-radius: 4px;
+  background-color: #f9f9f9;
 }
 
 .new-record {
@@ -226,7 +286,7 @@ button:active {
   
 .controls-row {
   display: flex;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px));
   gap: 20px;
   justify-content: center;
   width: 100%; 

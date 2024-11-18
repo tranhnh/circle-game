@@ -47,7 +47,7 @@ function App() {
         if (circleElement) {
           circleElement.click();
         }
-      }, 200);
+      }, 800);
 
       return () => clearTimeout(timeout);
     }
