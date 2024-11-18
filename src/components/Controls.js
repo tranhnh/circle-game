@@ -24,7 +24,7 @@ function Controls({ handleStopGame, togglePause, isPaused, playerName, setPlayer
         />
       </div>
       
-      <div className='container-button'>
+      <div className='button-container'>
         <button
           onClick={handleStartGame}
           disabled={points <= 0 || !playerName || gameStarted}

@@ -123,10 +123,13 @@ function App() {
           circle.id === id ? { ...circle, isHidden: true } : circle
         )
       );
-      
+
       if (id === points) {
-        handleGameWin();
+        setTimeout(() => {
+          handleGameWin(); 
+        }, 800); 
       }
+      
     } else {
       setWrongClicks(prev => prev + 1);
       const circles = document.querySelectorAll('.circle');

@@ -21,7 +21,9 @@ input:focus {
   font-family: Arial, sans-serif;
 }
 
-.container-button {
+.button-container {
+
+  flex-wrap: wrap;
   gap: 10px;
   display: flex;
 }  
@@ -44,6 +46,7 @@ input:focus {
 }
 
 button {
+  flex: 1 1 auto;
   justify-content: center;
   align-items: center;
   border: none;
