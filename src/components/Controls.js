@@ -34,18 +34,18 @@ function Controls({ handleStopGame, togglePause, isPaused, playerName, setPlayer
         </button>
 
         {gameStarted && (
-        <button onClick={resetGame} className="reset">
-          <FontAwesomeIcon icon={faRedo} />
-        </button>
-        )}
-
-        {gameStarted && (
           <button
           onClick={togglePause}
           className={`pause ${isPaused ? 'resume' : ''}`}
         >
           <FontAwesomeIcon icon={isPaused ? faPlay : faPause} />
           </button>
+        )}
+
+        {gameStarted && (
+        <button onClick={resetGame} className="reset">
+          <FontAwesomeIcon icon={faRedo} />
+        </button>
         )}
 
         {gameStarted && (

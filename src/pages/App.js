@@ -150,7 +150,7 @@ function App() {
   const togglePause = () => {
     setIsPaused((prev) => {
       if (!prev) {
-        setAutoPlay(false); // Tắt autoPlay khi pause
+        setAutoPlay(false);
       }
       return !prev;
     });
