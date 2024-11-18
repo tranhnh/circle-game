@@ -1,6 +1,8 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt, faSpinner, faPlay, faPause, faRedo } from '@fortawesome/free-solid-svg-icons';
 
-function Controls({ togglePause, isPaused, playerName, setPlayerName, points, setPoints, handleStartGame, resetGame, autoPlay, setAutoPlay, gameStarted }) {
+function Controls({ handleStopGame, togglePause, isPaused, playerName, setPlayerName, points, setPoints, handleStartGame, resetGame, autoPlay, setAutoPlay, gameStarted }) {
   return (
     <div className="controls">
       <div className="controls-row">
@@ -28,30 +30,41 @@ function Controls({ togglePause, isPaused, playerName, setPlayerName, points, se
           disabled={points <= 0 || !playerName || gameStarted}
           className={`start ${points <= 0 || !playerName || gameStarted ? 'disabled' : ''}`}
         >
-          {gameStarted ? 'Game in Progress' : 'Start Game'}
+          <FontAwesomeIcon icon={gameStarted ? faSpinner : faPlay} spin={gameStarted} />
         </button>
 
         {gameStarted && (
         <button onClick={resetGame} className="reset">
-          Reset Game
+          <FontAwesomeIcon icon={faRedo} />
         </button>
         )}
 
         {gameStarted && (
+          <button
+          onClick={togglePause}
+          className={`pause ${isPaused ? 'resume' : ''}`}
+        >
+          <FontAwesomeIcon icon={isPaused ? faPlay : faPause} />
+          </button>
+        )}
+
+        {gameStarted && (
+          <button
+            onClick={handleStopGame}
+            disabled={!gameStarted}
+            className="stop"
+          >
+             <FontAwesomeIcon icon={faSignOutAlt} />
+          </button>
+        )}
+
+        {gameStarted && !isPaused && (
           <button
             onClick={() => setAutoPlay(!autoPlay)}
             className={`auto-play ${autoPlay ? 'active' : ''}`}
           >
             {autoPlay ? 'Stop Auto Play' : 'Start Auto Play'}
           </button>
-        )}
-        {gameStarted && (
-          <button
-          onClick={togglePause}
-          className={`pause ${isPaused ? 'resume' : ''}`}
-        >
-          {isPaused ? 'Resume' : 'Pause'}
-        </button>
         )}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function GameInfo({ time, gameStarted, nextNumber }) {
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);

@@ -11,6 +11,7 @@ import '../components/Circle/Circle.css';
 import './App.css';
 
 
+
 function App() {
   const [points, setPoints] = useState(0);
   const [circles, setCircles] = useState([]);
@@ -37,9 +38,7 @@ function App() {
   }, [gameStarted, isPaused]);
 
   useEffect(() => {
-    if (!autoPlay || !gameStarted) return;
-
-    if (isPaused) return;
+     if (!autoPlay || isPaused || !gameStarted) return;
 
     const nextCircle = circles.find(circle => circle.id === nextNumber);
     if (nextCircle) {
@@ -115,7 +114,7 @@ function App() {
   };
 
   const handleCircleClick = (id) => {
-    if (!gameStarted) return;
+    if (!gameStarted || isPaused) return;
 
     if (id === nextNumber) {
       setNextNumber(prev => prev + 1);
@@ -149,7 +148,22 @@ function App() {
   };
 
   const togglePause = () => {
-    setIsPaused((prev) => !prev);
+    setIsPaused((prev) => {
+      if (!prev) {
+        setAutoPlay(false); // Tắt autoPlay khi pause
+      }
+      return !prev;
+    });
+  };
+
+  const handleStopGame = () => {
+    setGameStarted(false);
+    setTime(0);
+    setNextNumber(1); 
+    setWrongClicks(0);
+    setCircles([]); 
+    setAutoPlay(false);
+    setShowModal(false); 
   };
 
   return (
@@ -169,6 +183,7 @@ function App() {
         gameStarted={gameStarted}
         togglePause={togglePause}
         isPaused={isPaused} 
+        handleStopGame={handleStopGame}
       />
 
       <GameInfo
