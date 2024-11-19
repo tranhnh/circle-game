@@ -7,7 +7,7 @@ import CircleContainer from '../components/CircleContainer';
 import Modal from '../components/Modal';
 import Stats from '../components/Stats';
 import { push, ref, onValue } from 'firebase/database';
-import { database } from "../components/firebase";
+import { database } from '../components/firebase.js';
 
 
 import '../components/Circle/Circle.css';
@@ -178,7 +178,7 @@ function App() {
       if (data) {
         const scoresArray = Object.values(data)
           .sort((a, b) => a.time - b.time)  // Sắp xếp theo thời gian tăng dần (thời gian nhanh hơn sẽ lên trên)
-          .slice(0, 5);  // Lấy top 5 nhanh nhất
+          .slice(0, 10);  // Lấy top 5 nhanh nhất
         callback(scoresArray);
       } else {
         callback([]);

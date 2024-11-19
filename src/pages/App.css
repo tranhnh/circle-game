@@ -259,11 +259,16 @@ button:active {
 }
 
 .history-list {
-  margin-top: 30px;
-  padding: 10px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;  
+  top: 20px;        
+  right: 20px;      /* Đưa BXH sang tay phải */
+  width: 250px;     
+  background-color: #fff;  
+  color: black;     
+  padding: 15px;    /* Padding xung quanh */
+  border-radius: 10px; /* Bo góc */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  z-index: 100;    
 }
 
 .history-item {
@@ -293,4 +298,18 @@ button:active {
   gap: 20px;
   justify-content: center;
   width: 100%; 
+}
+
+@media screen and (max-width: 768px) {
+  .history-list {
+    position: relative;  /* Để BXH không cố định */
+    width: 100%;         /* Chiều rộng toàn màn hình */
+    top: auto;           /* Đưa BXH xuống dưới */
+    right: auto;         /* Đưa BXH về vị trí mặc định */
+    background-color: white;  /* Nền đen mờ */
+    color: black;        /* Chữ màu trắng */
+    padding: 10px;       /* Padding xung quanh */
+    margin-top: 20px;    /* Khoảng cách từ trên xuống */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+  }
 }
