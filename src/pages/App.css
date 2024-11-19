@@ -11,7 +11,7 @@ input {
 input:focus {
   border-color: #3498db;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 .container {
@@ -19,18 +19,18 @@ input:focus {
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
+  height: 100vh;
 }
 
 .button-container {
-
   flex-wrap: wrap;
   gap: 10px;
   display: flex;
-}  
-  
+}
+
 .header {
-  background:#2c3e50;
-  padding: 20px;
+  background: black;
+  padding: 10px;
   border-radius: 10px;
   color: white;
   text-align: center;
@@ -55,73 +55,68 @@ button {
   font-size: 15px;
   transition: background-color 0.3s, transform 0.2s;
   min-width: 100px;
-  height: 40px; 
+  height: 40px;
   padding: 8px 16px;
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
 button.start {
-  background-color: #2ecc71; 
+  background-color: #2ecc71;
   color: white;
 }
 
 button.start:hover {
-  background-color: #27ae60; 
+  background-color: #27ae60;
 }
 
-
 button.reset {
-  background-color: #3498db; 
+  background-color: #3498db;
   color: white;
 }
 
 button.reset:hover {
-  background-color: #2980b9; 
+  background-color: #2980b9;
 }
 
-
 button.pause {
-  background-color: #f39c12; 
+  background-color: #f39c12;
   color: white;
 }
 
 button.pause:hover {
-  background-color: #e67e22; 
+  background-color: #e67e22;
 }
 
 button.pause.resume {
-  background-color: #9b59b6; 
+  background-color: #9b59b6;
 }
 
 button.pause.resume:hover {
-  background-color: #8e44ad; 
+  background-color: #8e44ad;
 }
 
 button.stop {
-  background-color: #e74c3c; 
+  background-color: #e74c3c;
   color: white;
 }
 
 button.stop:hover {
-  background-color: #c0392b; 
+  background-color: #c0392b;
 }
 
 button:disabled {
-  background-color: #95a5a6; 
+  background-color: #95a5a6;
   cursor: not-allowed;
 }
 
 button:disabled:hover {
-  background-color: #95a5a6; 
+  background-color: #95a5a6;
 }
 
 button:active {
   transform: scale(0.95);
 }
-
-
 
 .start {
   background-color: #2ecc71;
@@ -137,14 +132,13 @@ button:active {
   color: white;
 }
 .auto-play.active {
-  background-color: #f39c12;  
+  background-color: #f39c12;
 }
 
 .disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }
-
 
 .game-info {
   display: flex;
@@ -259,16 +253,15 @@ button:active {
 }
 
 .history-list {
-  position: fixed;  
-  top: 20px;        
-  right: 20px;      /* Đưa BXH sang tay phải */
-  width: 250px;     
-  background-color: #fff;  
-  color: black;     
-  padding: 15px;    /* Padding xung quanh */
+  position: fixed;
+  top: 20px;
+  right: 20px; /* Đưa BXH sang tay phải */
+  width: 250px;
+  background-color: #fff;
+  color: black;
+  padding: 15px; /* Padding xung quanh */
   border-radius: 10px; /* Bo góc */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  z-index: 100;    
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .history-item {
@@ -284,32 +277,33 @@ button:active {
   color: #e74c3c;
   font-weight: bold;
 }
-  
+
 .controls {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
 }
-  
+
 .controls-row {
   display: flex;
   grid-template-columns: repeat(auto-fit, minmax(150px));
   gap: 20px;
   justify-content: center;
-  width: 100%; 
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
   .history-list {
-    position: relative;  /* Để BXH không cố định */
-    width: 100%;         /* Chiều rộng toàn màn hình */
-    top: auto;           /* Đưa BXH xuống dưới */
-    right: auto;         /* Đưa BXH về vị trí mặc định */
-    background-color: white;  /* Nền đen mờ */
-    color: black;        /* Chữ màu trắng */
-    padding: 10px;       /* Padding xung quanh */
-    margin-top: 20px;    /* Khoảng cách từ trên xuống */
+    animation: slideIn 0.5s ease-out;
+    position: relative; /* Để BXH không cố định */
+    width: 100%; /* Chiều rộng toàn màn hình */
+    top: auto; /* Đưa BXH xuống dưới */
+    right: auto; /* Đưa BXH về vị trí mặc định */
+    background-color: white; /* Nền đen mờ */
+    color: black; /* Chữ màu trắng */
+    padding: 10px; /* Padding xung quanh */
+    margin-top: 20px; /* Khoảng cách từ trên xuống */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng */
   }
 }
