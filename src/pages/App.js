@@ -6,6 +6,8 @@ import Lives from '../components/Lives';
 import CircleContainer from '../components/CircleContainer';
 import Modal from '../components/Modal';
 import Stats from '../components/Stats';
+import { push, ref, onValue } from 'firebase/database';
+import { database } from "../components/firebase";
 
 import '../components/Circle/Circle.css';
 import './App.css';
@@ -28,38 +30,12 @@ function App() {
   const [playerName, setPlayerName] = useState("");
   const [isPaused, setIsPaused] = useState(false);
   
-
-  useEffect(() => {
-    let timer;
-    if (gameStarted && !isPaused) {
-      timer = setInterval(() => setTime((prev) => prev + 1), 1000);
-    }
-    return () => clearInterval(timer);
-  }, [gameStarted, isPaused]);
-
-  useEffect(() => {
-     if (!autoPlay || isPaused || !gameStarted) return;
-
-    const nextCircle = circles.find(circle => circle.id === nextNumber);
-    if (nextCircle) {
-      const timeout = setTimeout(() => {
-        const circleElement = document.querySelector(`[data-circle-id="${nextCircle.id}"]`);
-        if (circleElement) {
-          circleElement.click();
-        }
-      }, 1000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [autoPlay, nextNumber, circles, gameStarted, isPaused]);
-
+  
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
-
-
 
   const resetGame = () => {
     setTime(0);
@@ -92,19 +68,43 @@ function App() {
     setWrongClicks(0);
   };
 
+  const saveScore = (playerName, points, time) => {
+    console.log("Saving score:", { playerName, points, time });  
+    const scoresRef = ref(database, "points");  
+    push(scoresRef, {
+      playerName: playerName, 
+      points: points,          
+      time: time,              
+    });
+  };
+
   const handleGameWin = () => {
     setGameStarted(false);
     setAutoPlay(false);
     const newHistory = [
       ...history, 
       { playerName, points, time }
-    ].sort((a, b) => a.time - b.time)
+    ]
+    
+    .sort((a, b) => a.time - b.time)
     .slice(0, 5);
     setHistory(newHistory);
     
     if (bestTime === null || time < bestTime) {
       setBestTime(time);
     }
+
+
+      saveScore(playerName, points, time);  // Gọi hàm lưu điểm vào Firebase
+
+      console.log(playerName, points, time);
+
+  
+    setModalInfo({
+      type: 'success',
+      message: `You completed ${points} points in ${formatTime(time)}!`
+    });
+    setShowModal(true);
     
     setModalInfo({
       type: 'success',
@@ -169,6 +169,62 @@ function App() {
     setShowModal(false); 
     setIsPaused(false);
   };
+
+  const fetchScores = (callback) => {
+    const scoresRef = ref(database, "points");  
+    onValue(scoresRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const scoresArray = Object.values(data)
+          .sort((a, b) => a.time - b.time)  // Sắp xếp theo thời gian tăng dần (thời gian nhanh hơn sẽ lên trên)
+          .slice(0, 5);  // Lấy top 5 nhanh nhất
+        callback(scoresArray);
+      } else {
+        callback([]);
+      }
+    });
+  };
+  
+  
+  useEffect(() => {
+    let timer;
+    if (gameStarted && !isPaused) {
+      timer = setInterval(() => setTime((prev) => prev + 1), 1000);
+    }
+    return () => clearInterval(timer);
+  }, [gameStarted, isPaused]);
+
+  useEffect(() => {
+     if (!autoPlay || isPaused || !gameStarted) return;
+
+    const nextCircle = circles.find(circle => circle.id === nextNumber);
+    if (nextCircle) {
+      const timeout = setTimeout(() => {
+        const circleElement = document.querySelector(`[data-circle-id="${nextCircle.id}"]`);
+        if (circleElement) {
+          circleElement.click();
+        }
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [autoPlay, nextNumber, circles, gameStarted, isPaused]);
+
+  useEffect(() => {
+    fetchScores((points) => {
+      if (points) {
+        const validScores = points.map(score => {
+          return {
+            playerName: playerName,
+            points: points,
+            time: time,   
+          };
+        });
+        setHistory(points); 
+      }
+    });
+  }, []);
+  
 
   return (
     <div className="container">
