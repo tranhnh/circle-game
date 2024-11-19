@@ -9,6 +9,7 @@ import Stats from '../components/Stats';
 import { push, ref, onValue } from 'firebase/database';
 import { database } from "../components/firebase";
 
+
 import '../components/Circle/Circle.css';
 import './App.css';
 
@@ -70,8 +71,8 @@ function App() {
 
   const saveScore = (playerName, points, time) => {
     console.log("Saving score:", { playerName, points, time });  
-    const scoresRef = ref(database, "points");  
-    push(scoresRef, {
+    const pointsRef = ref(database, "points");  
+    push(pointsRef, {
       playerName: playerName, 
       points: points,          
       time: time,              
@@ -171,8 +172,8 @@ function App() {
   };
 
   const fetchScores = (callback) => {
-    const scoresRef = ref(database, "points");  
-    onValue(scoresRef, (snapshot) => {
+    const pointsRef = ref(database, "points");  
+    onValue(pointsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const scoresArray = Object.values(data)
@@ -213,11 +214,11 @@ function App() {
   useEffect(() => {
     fetchScores((points) => {
       if (points) {
-        const validScores = points.map(score => {
+        points.map(points => {
           return {
-            playerName: playerName,
-            points: points,
-            time: time,   
+            playerName: points.playerName,
+            points: points.points,
+            time: points.time,   
           };
         });
         setHistory(points); 
